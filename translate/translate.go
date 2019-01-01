@@ -125,17 +125,16 @@ func (tc *TranslationContext) translateArrayField(value interface{}, ids map[str
 	}
 	items := value.([]interface{})
 
-	var array []string
-	array = make([]string, len(items))
+	var array []interface{}
+	array = make([]interface{}, len(items))
 
 	for i, el := range items {
 		s, isString := el.(string)
 		if isString {
 			array[i] = s
 		} else {
-			if s, ok := tc.translateLinkField(el, ids).(string); ok {
-				array[i] = s
-			}
+			obj := tc.translateLinkField(el, ids)
+			array[i] = obj
 		}
 	}
 
